@@ -1,0 +1,28 @@
+.polar_graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: 1px;
+  stroke-opacity: .5;
+  stroke-dasharray: 4;
+  shape-rendering: geometricPrecision;
+}
+
+.polar_land {
+  fill: #222;
+}
+
+.polar_boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+.polar_graph_border {
+  stroke: black;
+  stroke-width: 1.5px;
+  fill: none;
+}
+.polar_lons {
+  font-family: sans-serif;
+  text-anchor: middle;
+}
