@@ -7,3 +7,10 @@ Polar
 -----
 
 Draws a radial Polar-Stereographic plot
+
+
+
+License
+--------
+
+This library is distributed under the MIT License. See `LICENSE` for more.
