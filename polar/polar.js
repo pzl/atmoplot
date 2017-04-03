@@ -35,14 +35,15 @@
 			.attr("cy",radius)
 			.attr("class", "polar_graph_border");
 
+		var bound_id = "polar_bounds"+rand();
 		container.append("clipPath")
-			.attr("id","polar_bounds")
+			.attr("id",bound_id)
 			.append("circle")
 				.attr("r",radius)
 				.attr("cx",radius)
 				.attr("cy",radius);
 
-		graph_inner.attr("clip-path","url(#polar_bounds)");
+		graph_inner.attr("clip-path","url(#"+bound_id+")");
 
 		var projection = d3.geoStereographic()
 			.scale(radius*options.scale)
@@ -105,6 +106,10 @@
 			}
 		}
 		return a;
+	}
+
+	function rand(){
+		return Math.random().toString(16).slice(2);
 	}
 
 	/**
