@@ -114,6 +114,7 @@
 
 	/**
 	 * @todo: automatically place labels based on scale
+	 * @todo: only load 50m.json once, store on object?
 	 */
 
 	 exports.polar_plot = function(container,size,options) {
