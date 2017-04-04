@@ -1,6 +1,7 @@
 .voronoi {
 	fill: none;
 	stroke:none;
+	pointer-events: all;
 }
 
 .vlabel {

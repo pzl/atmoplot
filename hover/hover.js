@@ -19,27 +19,29 @@
 			voronoi = voronoi.x(xacc).y(yacc);
 			container = container ? container : selection;
 			
-			var vGroup = container.append("g").attr("class","voronoi");
+			var tooltip = container.append("g").attr("class","tooltip")
+				vGroup = container.append("g").attr("class","voronoi");
+
+			tooltip.attr("transform","translate(-100,-100)");
+			tooltip.append("text")
+				.attr("class","vlabel")
+				.text("label")
+				.attr("y",-20);
+			tooltip.append("circle")
+				.attr("class","vhighlight")
+				.attr("r",3);
+
 			vGroup.selectAll("path")
 				.data(voronoi.extent([[xbounds[0],ybounds[0]-hover_padding],[xbounds[1],ybounds[1]+hover_padding]]).polygons(data))
 				.enter().append("path")
 				.attr("class","voronoi")
 				.attr("d",function(d){return d?"M"+d.join("L")+"Z":null; })
 				.on("mouseover",function(d,i,nodes){
-					container.append("text")
-						.attr("class","vlabel")
-						.text(label_fmt(d.data))
-						.attr("x",xacc(d.data))
-						.attr("y",yacc(d.data)-20)
-					container.append("circle")
-						.attr("class","vhighlight")
-						.attr("r",3)
-						.attr("cx",xacc(d.data))
-						.attr("cy",yacc(d.data))
+					tooltip.attr("transform","translate("+xacc(d.data)+","+yacc(d.data)+")");
+					tooltip.select("text").text(label_fmt(d.data));
 				})
 				.on("mouseout",function(d,i,nodes){
-					container.select(".vlabel").remove();
-					container.select(".vhighlight").remove();
+					tooltip.attr("transform","translate(-100,-100)")
 				})
 		}
 
