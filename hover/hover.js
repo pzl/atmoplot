@@ -6,8 +6,8 @@
 			ybounds = [0,1e6],
 			hover_padding = 50,
 			container = null,
-			xacc = function(d){ return d; },
-			yacc = function(d){ return d; },
+			xacc = function(d){ return d[0]; },
+			yacc = function(d){ return d[1]; },
 			label_fmt = function(d){ return yacc(d)+":"+xacc(d) };
 
 		var voronoi = d3.voronoi();
