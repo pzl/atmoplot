@@ -1,0 +1,12 @@
+.voronoi {
+	fill: none;
+	stroke:none;
+}
+
+.vlabel {
+	text-anchor: middle;
+}
+.vhighlight {
+	fill: red;
+	stroke: none;
+}
