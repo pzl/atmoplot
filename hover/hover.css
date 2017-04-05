@@ -14,3 +14,12 @@
 	fill: red;
 	stroke: none;
 }
+
+.tt-xaxis, .tt-yaxis {
+	stroke: rgba(0,200,0,0.4);
+	image-rendering: crispEdges;
+}
+
+.tt-x-label {
+	text-anchor: middle;
+}
