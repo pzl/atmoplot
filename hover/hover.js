@@ -11,6 +11,7 @@
 			label_fmt = function(d){ return yacc(d)+":"+xacc(d) };
 
 		var voronoi = d3.voronoi();
+		var tooltip_pad = 5;
 
 		function run(selection){
 			data = d3.merge(selection.data());
@@ -23,6 +24,12 @@
 				vGroup = container.append("g").attr("class","voronoi");
 
 			tooltip.attr("transform","translate(-100,-100)");
+			tooltip.append("rect")
+				.attr("class","tt-bg")
+				.attr("x",-100)
+				.attr("y",-100)
+				.attr("width",0)
+				.attr("height",0)
 			tooltip.append("text")
 				.attr("class","vlabel")
 				.text("label")
@@ -38,7 +45,15 @@
 				.attr("d",function(d){return d?"M"+d.join("L")+"Z":null; })
 				.on("mouseover",function(d,i,nodes){
 					tooltip.attr("transform","translate("+xacc(d.data)+","+yacc(d.data)+")");
-					tooltip.select("text").text(label_fmt(d.data));
+					var box = tooltip.select("text")
+								.text(label_fmt(d.data))
+								.node().getBBox();
+					tooltip.select("rect")
+						.attr("x",box.x-tooltip_pad)
+						.attr("y",box.y-tooltip_pad)
+						.attr("width",box.width+tooltip_pad*2)
+						.attr("height",box.height+tooltip_pad*2)
+
 				})
 				.on("mouseout",function(d,i,nodes){
 					tooltip.attr("transform","translate(-100,-100)")

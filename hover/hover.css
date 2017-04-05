@@ -3,6 +3,9 @@
 	stroke:none;
 	pointer-events: all;
 }
+.tt-bg {
+	fill: rgba(255,255,255,0.5);
+}
 
 .vlabel {
 	text-anchor: middle;
