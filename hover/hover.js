@@ -24,47 +24,25 @@
 			vcontainer = vcontainer ? vcontainer : selection;
 			tt_container = tt_container ? tt_container : vcontainer;
 			
-			var tooltip = tt_container.append("g").attr("class","tooltip"),
-				vGroup = vcontainer.append("g").attr("class","voronoi");
-
-			tooltip.attr("transform","translate(-100,-100)");
-			if (axis_lines && height !== null){
-				tooltip.append("line")
-					.attr("class","tt-xaxis")
-					.attr("x1",0).attr("x2",0)
-					.attr("y1",0).attr("y2",0)
-				tooltip.append("line")
-					.attr("class","tt-yaxis")
-					.attr("y1",0).attr("y2",0)
-					.attr("x1",0).attr("x2",0)
-
-				tooltip.append("text")
-					.attr("class","tt-x-label")
-					.attr("y",height)
-					.attr("x",0)
-				tt_container.append("text")
-					.attr("class","tt-y-label")
-					.attr("y",0)
-					.attr("x",0);
+			var tooltip = _create_tooltip_elements(tt_container);
+			var vGroup;
+			if ( vcontainer.select(".voronoi").size() > 0 ){
+				vGroup = d3.select(".voronoi");
 			} else {
-				tooltip.append("rect")
-					.attr("class","tt-bg")
-					.attr("x",-100)
-					.attr("y",-100)
-					.attr("width",0)
-					.attr("height",0)
-				tooltip.append("text")
-					.attr("class","vlabel")
-					.attr("y",-20);
+				vGroup = vcontainer.append("g").attr("class","voronoi");
 			}
-			tooltip.append("circle")
-				.attr("class","vhighlight")
-				.attr("r",3);
 
-			vGroup.selectAll("path")
-				.data(voronoi.extent([[xbounds[0],ybounds[0]-hover_padding],[xbounds[1],ybounds[1]+hover_padding]]).polygons(data))
-				.enter().append("path")
+			// ------ VORONOI work
+
+			// Data JOIN
+			var v_paths = vGroup.selectAll("path")
+							.data(voronoi.extent([[xbounds[0],ybounds[0]-hover_padding],[xbounds[1],ybounds[1]+hover_padding]]).polygons(data));
+
+			v_paths.exit().remove();
+
+			v_paths.enter().append("path")
 				.attr("class","voronoi")
+				.merge(v_paths)
 				.attr("d",function(d){return d?"M"+d.join("L")+"Z":null; })
 				.on("mouseover",function(d,i,nodes){
 					var y = yacc(d.data);
@@ -104,6 +82,59 @@
 						tooltip.select("text").text("")
 					}
 				})
+		}
+
+		function _create_tooltip_elements(tt_container){
+			if ( tt_container.select(".tooltip").size() > 0 ){
+				return tt_container.select(".tooltip");
+				// @ todo: this does not account for changing from
+				// line-style to box-style
+			}
+
+			var tooltip = tt_container.append("g").attr("class","tooltip");
+
+			tooltip.attr("transform","translate(-100,-100)");
+			if (axis_lines && height !== null){
+				_create_tt_lines(tt_container,tooltip);
+			} else {
+				_create_tt_box(tooltip);
+			}
+			tooltip.append("circle")
+				.attr("class","vhighlight")
+				.attr("r",3);
+
+			return tooltip;
+		}
+
+		function _create_tt_lines(tt_container,tooltip){
+			tooltip.append("line")
+				.attr("class","tt-xaxis")
+				.attr("x1",0).attr("x2",0)
+				.attr("y1",0).attr("y2",0)
+			tooltip.append("line")
+				.attr("class","tt-yaxis")
+				.attr("y1",0).attr("y2",0)
+				.attr("x1",0).attr("x2",0)
+
+			tooltip.append("text")
+				.attr("class","tt-x-label")
+				.attr("y",0)
+				.attr("x",0)
+			tt_container.append("text")
+				.attr("class","tt-y-label")
+				.attr("y",0)
+				.attr("x",0);
+		}
+		function _create_tt_box(){
+			tooltip.append("rect")
+				.attr("class","tt-bg")
+				.attr("x",-100)
+				.attr("y",-100)
+				.attr("width",0)
+				.attr("height",0)
+			tooltip.append("text")
+				.attr("class","vlabel")
+				.attr("y",-20);
 		}
 
 		run.x = function(x) {
