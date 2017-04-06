@@ -11,7 +11,8 @@
 			height = null,
 			xacc = function(d){ return d[0]; },
 			yacc = function(d){ return d[1]; },
-			label_fmt = function(d){ return yacc(d)+":"+xacc(d) };
+			label_x = function(d){ return d[0]; },
+			label_y = function(d){ return d[1]; }
 
 		var voronoi = d3.voronoi();
 		var tooltip_pad = 5;
@@ -55,13 +56,13 @@
 
 						tooltip.select(".tt-x-label")
 							.attr("y",height-y)
-							.text(d.data.date)
+							.text(label_x(d.data))
 						tt_container.select(".tt-y-label")
-							.text(d.data.value)
+							.text(label_y(d.data))
 							.attr("y",yacc(d.data))
 					} else {
 						var box = tooltip.select("text")
-									.text(label_fmt(d.data))
+									.text(label_x(d.data)+"\n"+label_y(d.data))
 									.node().getBBox();
 						tooltip.select("rect")
 							.attr("x",box.x-tooltip_pad)
@@ -175,8 +176,12 @@
 			hover_padding = padding;
 			return run;
 		}
-		run.label = function(format) {
-			label_fmt = format;
+		run.xLabel = function(format) {
+			label_x = format;
+			return run;
+		}
+		run.yLabel = function(format) {
+			label_y = format;
 			return run;
 		}
 		run.insert = function(element) {
