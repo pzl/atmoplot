@@ -72,15 +72,7 @@
 
 				})
 				.on("mouseout",function(d,i,nodes){
-					tooltip.attr("transform","translate(-100,-100)");
-					if (axis_lines) {
-						tooltip.select(".tt-xaxis").attr("y2",0)
-						tooltip.select(".tt-yaxis").attr("x2",0)
-						tooltip.select("text").text("")
-						tt_container.select(".tt-y-label").text("")
-					} else {
-						tooltip.select("text").text("")
-					}
+					_hide();
 				})
 		}
 
@@ -158,6 +150,19 @@
 				.attr("y",-20);
 		}
 
+		function _hide(){
+			var tooltip = tt_container.select('.tooltip');
+			tooltip.attr("transform","translate(-100,-100)");
+			if (axis_lines) {
+				tooltip.select(".tt-xaxis").attr("y2",0)
+				tooltip.select(".tt-yaxis").attr("x2",0)
+				tooltip.select("text").text("")
+				tt_container.select(".tt-y-label").text("")
+			} else {
+				tooltip.select("text").text("")
+			}
+		}
+
 		run.x = function(x) {
 			xacc = x;
 			return run;
@@ -185,6 +190,10 @@
 		run.lines = function(enabled, h) {
 			axis_lines = enabled;
 			height=h;
+			return run;
+		}
+		run.hide = function(){
+			_hide();
 			return run;
 		}
 
