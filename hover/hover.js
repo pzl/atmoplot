@@ -5,7 +5,8 @@
 			xbounds = [0,1e6],
 			ybounds = [0,1e6],
 			hover_padding = 50,
-			container = null,
+			vcontainer = null,
+			tt_container = null,
 			axis_lines = true,
 			height = null,
 			xacc = function(d){ return d[0]; },
@@ -20,10 +21,11 @@
 			xbounds = d3.extent(data,xacc);
 			ybounds = d3.extent(data,yacc);
 			voronoi = voronoi.x(xacc).y(yacc);
-			container = container ? container : selection;
+			vcontainer = vcontainer ? vcontainer : selection;
+			tt_container = tt_container ? tt_container : vcontainer;
 			
-			var tooltip = container.append("g").attr("class","tooltip"),
-				vGroup = container.append("g").attr("class","voronoi");
+			var tooltip = tt_container.append("g").attr("class","tooltip"),
+				vGroup = vcontainer.append("g").attr("class","voronoi");
 
 			tooltip.attr("transform","translate(-100,-100)");
 			if (axis_lines && height !== null){
@@ -40,7 +42,7 @@
 					.attr("class","tt-x-label")
 					.attr("y",height)
 					.attr("x",0)
-				container.append("text")
+				tt_container.append("text")
 					.attr("class","tt-y-label")
 					.attr("y",0)
 					.attr("x",0);
@@ -76,7 +78,7 @@
 						tooltip.select(".tt-x-label")
 							.attr("y",height-y)
 							.text(d.data.date)
-						container.select(".tt-y-label")
+						tt_container.select(".tt-y-label")
 							.text(d.data.value)
 							.attr("y",yacc(d.data))
 					} else {
@@ -97,7 +99,7 @@
 						tooltip.select(".tt-xaxis").attr("y2",0)
 						tooltip.select(".tt-yaxis").attr("x2",0)
 						tooltip.select("text").text("")
-						container.select(".tt-y-label").text("")
+						tt_container.select(".tt-y-label").text("")
 					} else {
 						tooltip.select("text").text("")
 					}
@@ -121,7 +123,11 @@
 			return run;
 		}
 		run.insert = function(element) {
-			container = element;
+			vcontainer = element;
+			return run;
+		}
+		run.insert_tooltip = function(element) {
+			tt_container = element;
 			return run;
 		}
 		run.lines = function(enabled, h) {
