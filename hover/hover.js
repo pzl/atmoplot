@@ -24,7 +24,7 @@
 			vcontainer = vcontainer ? vcontainer : selection;
 			tt_container = tt_container ? tt_container : vcontainer;
 			
-			var tooltip = _create_tooltip_elements(tt_container);
+			var tooltip = _create_tooltip_elements();
 			var vGroup;
 			if ( vcontainer.select(".voronoi").size() > 0 ){
 				vGroup = d3.select(".voronoi");
@@ -84,7 +84,7 @@
 				})
 		}
 
-		function _create_tooltip_elements(tt_container){
+		function _create_tooltip_elements(){
 			if ( tt_container.select(".tooltip").size() > 0 ){
 				return tt_container.select(".tooltip");
 				// @ todo: this does not account for changing from
@@ -95,7 +95,7 @@
 
 			tooltip.attr("transform","translate(-100,-100)");
 			if (axis_lines && height !== null){
-				_create_tt_lines(tt_container,tooltip);
+				_create_tt_lines(tooltip);
 			} else {
 				_create_tt_box(tooltip);
 			}
@@ -106,7 +106,7 @@
 			return tooltip;
 		}
 
-		function _create_tt_lines(tt_container,tooltip){
+		function _create_tt_lines(tooltip){
 			tooltip.append("line")
 				.attr("class","tt-xaxis")
 				.attr("x1",0).attr("x2",0)
