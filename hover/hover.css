@@ -1,3 +1,5 @@
+@import	url("//fonts.googleapis.com/css?family=Open+Sans:700,400,300");
+
 .voronoi {
 	fill: none;
 	stroke:none;
@@ -18,13 +20,18 @@
 .tt-xaxis, .tt-yaxis {
 	stroke: url(#tt_hgrad);
 	shape-rendering: crispEdges;
+	opacity: 0.4;
 }
 .tt-xaxis {
 	stroke: url(#tt_vgrad);
 }
 
-.tt-x-label {
-	text-anchor: middle;
+.tt-x-label, .tt-y-label {
+	font-family: 'Open Sans', sans-serif;
+	fill: #9b6bbf;
+	font-size: 14px;
+	font-weight: 600;
+	opacity: 0.6;
 }
 
 
@@ -33,5 +40,5 @@
 }
 .tt_line_stop_end {
 	stop-color: #f73d82;
-	stop-opacity: 0.5;
+	/*stop-opacity: 0.5;*/
 }

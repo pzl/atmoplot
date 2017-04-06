@@ -46,20 +46,41 @@
 				.merge(v_paths)
 				.attr("d",function(d){return d?"M"+d.join("L")+"Z":null; })
 				.on("mouseover",function(d,i,nodes){
-					var y = yacc(d.data);
-					tooltip.attr("transform","translate("+xacc(d.data)+","+y+")");
+					var y = yacc(d.data),
+						x = xacc(d.data);
+					tooltip.attr("transform","translate("+x+","+y+")");
 					if (axis_lines && height !== null) {
 						tooltip.select(".tt-xaxis")
 							.attr("y2", height-y );
 						tooltip.select(".tt-yaxis")
-							.attr("x2",-1*xacc(d.data));
+							.attr("x2",-x);
 
 						tooltip.select(".tt-x-label")
-							.attr("y",height-y)
+							.attr("y",height-y-5)
 							.text(label_x(d.data))
+							.call(function(sel){
+								var tlen = sel.node().getBBox(),
+									tspace = 5;
+								if ( tlen.width + tspace > x ){
+									sel.style("text-anchor", "start" )
+										.attr("x",tspace);
+								} else {
+									sel.style("text-anchor","end")
+										.attr("x",-tspace)
+								}
+							})
 						tt_container.select(".tt-y-label")
 							.text(label_y(d.data))
-							.attr("y",yacc(d.data))
+							.attr("x",5)
+							.call(function(sel){
+								var theight = sel.node().getBBox().height,
+									tspace = 5;
+								if ( theight + tspace > y ){
+									sel.attr("y",y+theight+tspace)
+								} else {
+									sel.attr("y",y-tspace)
+								}
+							})
 					} else {
 						var box = tooltip.select("text")
 									.text(label_x(d.data)+"\n"+label_y(d.data))
