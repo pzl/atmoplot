@@ -109,11 +109,11 @@
 		function _create_tt_lines(tooltip){
 			tooltip.append("line")
 				.attr("class","tt-xaxis")
-				.attr("x1",0).attr("x2",0)
+				.attr("x1",0).attr("x2",0.00001) //to create a non-zero bounding box for gradient to work
 				.attr("y1",0).attr("y2",0)
 			tooltip.append("line")
 				.attr("class","tt-yaxis")
-				.attr("y1",0).attr("y2",0)
+				.attr("y1",0).attr("y2",0.00001)
 				.attr("x1",0).attr("x2",0)
 
 			tooltip.append("text")
@@ -124,6 +124,27 @@
 				.attr("class","tt-y-label")
 				.attr("y",0)
 				.attr("x",0);
+
+			//create gradient. I wish more could be handled in CSS
+			var defs = tt_container.append("defs");
+			var hgrad = defs.append("linearGradient")
+				.attr("id","tt_hgrad")
+				//.attr("gradientUnits","userSpaceOnUse")
+				.attr("x1","0%")
+				.attr("y1","0%")
+				.attr("x2","100%")
+				.attr("y2","0%");
+			hgrad.append("stop")
+				.attr("class","tt_line_stop_begin")
+				.attr("offset","0%")
+			hgrad.append("stop")
+				.attr("class","tt_line_stop_end")
+				.attr("offset","100%")
+			var vgrad = defs.append("linearGradient")
+				.attr("id","tt_vgrad")
+				.attr("xlink:xlink:href","#tt_hgrad")
+				.attr("x2","0%")
+				.attr("y1","100%")
 		}
 		function _create_tt_box(){
 			tooltip.append("rect")

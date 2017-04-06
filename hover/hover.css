@@ -11,15 +11,27 @@
 	text-anchor: middle;
 }
 .vhighlight {
-	fill: red;
+	fill: #ff3965;
 	stroke: none;
 }
 
 .tt-xaxis, .tt-yaxis {
-	stroke: rgba(0,200,0,0.4);
+	stroke: url(#tt_hgrad);
 	shape-rendering: crispEdges;
+}
+.tt-xaxis {
+	stroke: url(#tt_vgrad);
 }
 
 .tt-x-label {
 	text-anchor: middle;
+}
+
+
+.tt_line_stop_begin {
+	stop-color: #9b6bbf;
+}
+.tt_line_stop_end {
+	stop-color: #f73d82;
+	stop-opacity: 0.5;
 }
