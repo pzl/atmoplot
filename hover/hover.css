@@ -17,7 +17,7 @@
 
 .tt-xaxis, .tt-yaxis {
 	stroke: rgba(0,200,0,0.4);
-	image-rendering: crispEdges;
+	shape-rendering: crispEdges;
 }
 
 .tt-x-label {
