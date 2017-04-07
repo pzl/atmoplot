@@ -115,6 +115,7 @@
 	/**
 	 * @todo: automatically place labels based on scale
 	 * @todo: only load 50m.json once, store on object?
+	 * @todo: loading animation, or on 'progress' load bar https://bl.ocks.org/mbostock/3750941
 	 */
 
 	 exports.polar_plot = function(container,size,options) {
