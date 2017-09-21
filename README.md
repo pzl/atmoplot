@@ -25,7 +25,7 @@ TBD
 
 
 
-### Please see [doc/](doc/) for detailed usage information 
+### Please see [docs/](docs/) for detailed usage information 
 
 License
 --------
