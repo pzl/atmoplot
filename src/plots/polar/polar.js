@@ -35,7 +35,7 @@
 			.attr("cy",radius)
 			.attr("class", "polar_graph_border");
 
-		var bound_id = "polar_bounds"+rand();
+		var bound_id = "polar_bounds"+(bounds_counter++);
 		container.append("clipPath")
 			.attr("id",bound_id)
 			.append("circle")
@@ -108,9 +108,7 @@
 		return a;
 	}
 
-	function rand(){
-		return Math.random().toString(16).slice(2);
-	}
+	var bounds_counter=0; //each plot needs a globally-unique clip-path ID. Maybe better to do this than some rand() digits to prevent collisions
 
 	/**
 	 * @todo: automatically place labels based on scale
