@@ -11,13 +11,14 @@
 		var default_opts = {
 			padding: 50,
 			graticule: {
-				extentMajor: [[-180,0],[180,89.999999]],
-				extentMinor: [[-180,0],[180,80.000001]],
+				extentMajor: [[-180,-89.999999],[180,89.999999]],
+				extentMinor: [[-180,-80.000001],[180,80.000001]],
 				stepMajor: [90,360],
 				stepMinor: [30,10]
 			},
-			labels: 28,
 			scale: 1.75,
+			pole: 'N',
+			rotation: 180,
 		};
 		options = _optmerge(default_opts, options);
 
@@ -48,8 +49,8 @@
 		var projection = d3.geoStereographic()
 			.scale(radius*options.scale)
 			.translate([width/2-options.padding, height/2-options.padding])
-			.rotate([180,-90])
-			.clipAngle(181)
+			.rotate([options.rotation,(options.pole == 'N'?-1:1)*90])
+			//.clipAngle(181)
 			.clipExtent([[0,0], [width-options.padding,height-options.padding]])
 			.precision(.1);
 
@@ -70,14 +71,20 @@
 			.enter()
 			.append("text")
 			.attr("class", "polar_lons")
+			.attr('text-anchor',function(d){
+				if (d==0||d==180){
+					return 'middle';
+				}
+				return (d<180)?'end':'start';
+			})
 			.text(function(d){
 				if (d===0||d===180){
 					return d;
 				}
 				return (d<180)?d+"E":(180-(d-180))+"W";
 			})
-			.attr("x",function(d){ return projection([d,options.labels])[0] })
-			.attr("y",function(d){ return projection([d,options.labels])[1] });
+			.attr("x",function(d){ return projection([d,0])[0] })
+			.attr("y",function(d){ return projection([d,0])[1] });
 
 		d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
 			if (error) throw error;
