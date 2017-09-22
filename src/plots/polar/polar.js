@@ -110,6 +110,8 @@
 
 	var bounds_counter=0; //each plot needs a globally-unique clip-path ID. Maybe better to do this than some rand() digits to prevent collisions
 
+	window.topojson || document.write('<script src="https://unpkg.com/topojson@3"></script>');
+
 	/**
 	 * @todo: automatically place labels based on scale
 	 * @todo: only load 50m.json once, store on object?
