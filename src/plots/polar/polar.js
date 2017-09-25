@@ -67,24 +67,25 @@
 			.attr("class", "polar_graticule")
 			.attr("d",path);
 		graph.selectAll(".polar_lons")
-			.data(d3.range(0,360,30))
+			.data(d3.range(0,360,options.graticule.stepMinor[0]))
 			.enter()
 			.append("text")
 			.attr("class", "polar_lons")
-			.attr('text-anchor',function(d){
-				if (d==0||d==180){
-					return 'middle';
-				}
-				return (d<180)?'end':'start';
-			})
 			.text(function(d){
 				if (d===0||d===180){
 					return d;
 				}
 				return (d<180)?d+"E":(180-(d-180))+"W";
 			})
-			.attr("x",function(d){ return projection([d,0])[0] })
-			.attr("y",function(d){ return projection([d,0])[1] });
+			.attr("transform",function(d){
+				var instruction="";
+				var center = projection([0,90]);
+				var rotation = d+(180-options.rotation);
+				if (rotation > 90 && rotation <= 270) {
+					return "rotate("+rotation+" "+center[0]+","+center[1]+") rotate(180 "+radius+",-5)  translate("+radius+",5)";
+				}
+				return "rotate("+rotation+" "+center[0]+","+center[1]+") translate("+radius+",-5)";
+			})
 
 		d3.json("https://unpkg.com/world-atlas@1/world/50m.json", function(error, world) {
 			if (error) throw error;
@@ -120,7 +121,6 @@
 	window.topojson || document.write('<script src="https://unpkg.com/topojson@3"></script>');
 
 	/**
-	 * @todo: automatically place labels based on scale
 	 * @todo: only load 50m.json once, store on object?
 	 * @todo: loading animation, or on 'progress' load bar https://bl.ocks.org/mbostock/3750941
 	 */
