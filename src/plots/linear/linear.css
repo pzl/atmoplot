@@ -1,0 +1,9 @@
+.area {
+	fill: rgba(0,0,0,0.1);
+	stroke: none;
+}
+
+.line {
+	fill: none;
+	stroke: steelblue;
+}
