@@ -6,4 +6,5 @@
 .line {
 	fill: none;
 	stroke: steelblue;
+	shape-rendering: geometricPrecision;
 }

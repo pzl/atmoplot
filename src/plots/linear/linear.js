@@ -90,7 +90,8 @@
 		var that = this;
 		var defaults = {
 			x: function(d){ return d[0]; },
-			y: function(d){ return d[1]; }
+			y: function(d){ return d[1]; },
+			curve: d3.curveLinear
 		}
 		var options = _optmerge(defaults,options)
 
@@ -102,10 +103,11 @@
 		var line = d3.line()
 					.x(function(d){ return that.scale_x(options.x(d)) })
 					.y(function(d){ return that.scale_y(options.y(d)) })
+					.curve(options.curve)
 		var element = this.scalable
 						//.selectAll('.line').data([data]).enter()
-							.datum(data)
 							.append('path')
+							.datum(data)
 							.attr('class','line')
 							.attr('d',line);
 
@@ -126,7 +128,8 @@
 		var defaults = {
 			x: function(d){ return d[0]; },
 			y0:function(d){ return d[1]; },
-			y1:function(d){ return d[2]; }
+			y1:function(d){ return d[2]; },
+			curve: d3.curveMonotoneX,
 		}
 		var options = _optmerge(defaults,options);
 
@@ -135,14 +138,14 @@
 		that.scale_x.domain(this.extents.x);
 		that.scale_y.domain(this.extents.y);
 		var area = d3.area()
-					//.curve(d3.curveBasis)
+					.curve(options.curve)
 					.x(function(d){ return that.scale_x(options.x(d)) })
 					.y0(function(d){return that.scale_y(options.y0(d))})
 					.y1(function(d){return that.scale_y(options.y1(d))});
 		var element = this.scalable
 						//.selectAll('.area').data([data]).enter()
-							.datum(data)
 							.append('path')
+							.datum(data)
 							.attr('class','area')
 							.attr('d',area);
 
