@@ -27,6 +27,8 @@
 							.attr('class','plot')
 							.attr('transform','translate('+options.padding.x+','+options.padding.y+')');
 		this.scalable = this.plot.append("g").attr('class','scalable');
+		this.area_group = this.scalable.append("g").attr("class",'areas');
+		this.line_group = this.scalable.append("g").attr("class","lines")
 
 		this.scale_x = options.scale.x().range([0,options.width-options.padding.x]);
 		this.scale_y = options.scale.y().range([options.height-options.padding.y,options.padding.y]);
@@ -108,7 +110,7 @@
 					.x(function(d){ return that.scale_x(options.x(d)) })
 					.y(function(d){ return that.scale_y(options.y(d)) })
 					.curve(options.curve)
-		var element = this.scalable
+		var element = this.line_group
 						//.selectAll('.line').data([data]).enter()
 							.append('path')
 							.datum(data)
@@ -146,7 +148,7 @@
 					.x(function(d){ return that.scale_x(options.x(d)) })
 					.y0(function(d){return that.scale_y(options.y0(d))})
 					.y1(function(d){return that.scale_y(options.y1(d))});
-		var element = this.scalable
+		var element = this.area_group
 						//.selectAll('.area').data([data]).enter()
 							.append('path')
 							.datum(data)
