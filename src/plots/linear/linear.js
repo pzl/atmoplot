@@ -56,6 +56,7 @@
 
 		this.lines = [];
 		this.areas = [];
+		this.customs=[];
 		this.extents = {
 			x: [null,null],
 			y: [null,null]
@@ -80,6 +81,9 @@
 				.y0(function(d){return scale_y(area.y0(d)); })
 				.y1(function(d){return scale_y(area.y1(d)); });
 			area.element.attr('d',area.area);
+		}
+		for (var i=0; i<this.customs.length; i++){
+			this.customs[i].call(this,scale_x,scale_y);
 		}
 
 		this.y_ax_group.call(this.yaxis.scale(scale_y))
@@ -159,6 +163,11 @@
 		this.areas.push(created);
 		this.rescale();
 		return created
+	}
+
+	Linear_Plot.prototype.add_custom = function(cb) {
+		this.customs.push(cb);
+		cb.call(this,this.scale_x,this.scale_y);
 	}
 
 	function zoomed(that){
