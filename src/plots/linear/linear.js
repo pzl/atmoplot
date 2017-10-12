@@ -11,11 +11,15 @@
 			height: 500,
 			padding: {
 				x: 25,
-				y: 5,
+				y: 8,
 			},
 			scale: {
 				x: d3.scaleLinear,
 				y: d3.scaleLinear
+			},
+			label: {
+				x: null,
+				y: null
 			},
 			zoom: true
 		};
@@ -30,8 +34,8 @@
 		this.area_group = this.scalable.append("g").attr("class",'areas');
 		this.line_group = this.scalable.append("g").attr("class","lines")
 
-		this.scale_x = options.scale.x().range([0,options.width-options.padding.x]);
-		this.scale_y = options.scale.y().range([options.height-options.padding.y,options.padding.y]);
+		this.scale_x = options.scale.x().range([0,options.width-options.padding.x-1]);
+		this.scale_y = options.scale.y().range([options.height-options.padding.x,5]);
 
 		if (options.zoom){
 			var zoom = d3.zoom()
@@ -49,12 +53,27 @@
 		this.yaxis = d3.axisLeft(this.scale_y);
 		this.x_ax_group = this.axes.append("g")
 							.attr('class','axis axis-x')
-							.attr('transform','translate('+options.padding.x+','+options.height+')')
+							.attr('transform','translate('+options.padding.x+','+(options.height-options.padding.x)+')')
 							.call(this.xaxis)
 		this.y_ax_group = this.axes.append("g")
 							.attr('class','axis axis-y')
-							.attr('transform','translate('+options.padding.x+','+options.padding.y+')')
+							.attr('transform','translate('+options.padding.x+',0)')
 							.call(this.yaxis)
+		if (options.label.y){
+			this.y_ax_group.append("text")
+						.attr("class","axis-label axis-label-y")
+						.attr("transform","rotate(-90)")
+						.attr("y",6)
+						.attr("dy","0.71em")
+						.text(options.label.y)
+		}
+		if (options.label.x) {
+			this.x_ax_group.append("text")
+						.attr("class","axis-label axis-label-x")
+						.attr("x",options.width-options.padding.x)
+						.attr("y",-2)
+						.text(options.label.x)
+		}
 
 		this.lines = [];
 		this.areas = [];

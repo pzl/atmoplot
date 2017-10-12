@@ -8,3 +8,11 @@
 	stroke: steelblue;
 	shape-rendering: geometricPrecision;
 }
+
+.axis-label {
+	fill: #000;
+}
+
+.axis-label-x {
+	text-anchor: end;
+}
