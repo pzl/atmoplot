@@ -10,8 +10,8 @@
 			width: 800,
 			height: 500,
 			padding: {
-				x: 25,
-				y: 8,
+				h: 25,
+				v: 25,
 			},
 			scale: {
 				x: d3.scaleLinear,
@@ -29,13 +29,13 @@
 		this.chart = container.append("g").attr('class','chart');
 		this.plot = this.chart.append("g")
 							.attr('class','plot')
-							.attr('transform','translate('+options.padding.x+','+options.padding.y+')');
+							.attr('transform','translate('+options.padding.h+',0)');
 		this.scalable = this.plot.append("g").attr('class','scalable');
 		this.area_group = this.scalable.append("g").attr("class",'areas');
 		this.line_group = this.scalable.append("g").attr("class","lines")
 
-		this.scale_x = options.scale.x().range([0,options.width-options.padding.x-1]);
-		this.scale_y = options.scale.y().range([options.height-options.padding.x,5]);
+		this.scale_x = options.scale.x().range([0,options.width-options.padding.h-1]);
+		this.scale_y = options.scale.y().range([options.height-options.padding.v,5]);
 
 		if (options.zoom){
 			var zoom = d3.zoom()
@@ -53,11 +53,11 @@
 		this.yaxis = d3.axisLeft(this.scale_y);
 		this.x_ax_group = this.axes.append("g")
 							.attr('class','axis axis-x')
-							.attr('transform','translate('+options.padding.x+','+(options.height-options.padding.x)+')')
+							.attr('transform','translate('+options.padding.h+','+(options.height-options.padding.v)+')')
 							.call(this.xaxis)
 		this.y_ax_group = this.axes.append("g")
 							.attr('class','axis axis-y')
-							.attr('transform','translate('+options.padding.x+',0)')
+							.attr('transform','translate('+options.padding.h+',0)')
 							.call(this.yaxis)
 		if (options.label.y){
 			this.y_ax_group.append("text")
@@ -70,7 +70,7 @@
 		if (options.label.x) {
 			this.x_ax_group.append("text")
 						.attr("class","axis-label axis-label-x")
-						.attr("x",options.width-options.padding.x)
+						.attr("x",options.width-options.padding.h)
 						.attr("y",-2)
 						.text(options.label.x)
 		}
