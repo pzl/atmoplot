@@ -16,3 +16,9 @@
 .axis-label-x {
 	text-anchor: end;
 }
+
+.zero-line {
+	stroke: #989898;
+	shape-rendering: crispEdges;
+	stroke-dasharray: 3;
+}

@@ -21,6 +21,7 @@
 				x: null,
 				y: null
 			},
+			zero_line: true,
 			zoom: true
 		};
 		options = _optmerge(default_opts,options);
@@ -81,6 +82,20 @@
 		this.extents = {
 			x: [null,null],
 			y: [null,null]
+		}
+
+		if (options.zero_line) {
+			this.add_custom(function(sx,sy){
+				this.scalable.selectAll('.zero-line')
+					.data([0])
+					.attr('transform','translate(0,'+sy(0)+')')
+					.enter()
+						.append('line')
+						.attr('class','zero-line')
+						.attr('x1',0).attr('x2',this.options.width-this.options.padding.h)
+						.attr('y1',0).attr('y2',0)
+						.lower()
+			})
 		}
 	}
 
