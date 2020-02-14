@@ -75,7 +75,7 @@
 				if (d===0||d===180){
 					return d;
 				}
-				return (d<180)?d+"E":(180-(d-180))+"W";
+				return (d<180)?d+"W":(180-(d-180))+"E";
 			})
 			.attr("transform",function(d){
 				var instruction="";

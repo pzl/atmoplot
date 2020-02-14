@@ -94,7 +94,7 @@
 						.attr('class','zero-line')
 						.attr('x1',0).attr('x2',this.options.width-this.options.padding.h)
 						.attr('y1',0).attr('y2',0)
-						.lower()
+						//.lower()
 			})
 		}
 	}
@@ -155,7 +155,12 @@
 			line: line,
 			element: element,
 			x: options.x,
-			y: options.y
+			y: options.y,
+			data: function(d,t) {
+				element.datum(d)
+				var e = (t ? element.transition(t) : element)
+				e.attr('d',line)
+			}
 		};
 
 		this.lines.push(created);
@@ -194,7 +199,12 @@
 			element: element,
 			x: options.x,
 			y0: options.y0,
-			y1: options.y1
+			y1: options.y1,
+			data: function(d,t){
+				element.datum(d)
+				var e = (t ? element.transition(t) : element);
+				e.attr('d',area)
+			}
 		};
 		this.areas.push(created);
 		this.rescale();
